@@ -1,31 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 export default function SignUp() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const response = await axios({
+      method: "POST",
+      url: `${import.meta.env.VITE_API_URL}/users`,
+      data: {
+        username,
+        email,
+        password,
+        confirmPass,
+      },
+    });
+    console.log(response);
+  }
+
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
       <div className="flex min-h-full flex-1 flex-col justify-center px-4 py-4 lg:px-10">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -39,7 +38,13 @@ export default function SignUp() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            className="space-y-6"
+            id="form"
+            action="#"
+            method="post"
+            onSubmit={handleSubmit}
+          >
             <div>
               <label
                 htmlFor="username"
@@ -50,11 +55,13 @@ export default function SignUp() {
               <div className="mt-2">
                 <input
                   id="username"
-                  name="username"
                   type="username"
+                  name="username"
                   autoComplete="username"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
                 />
               </div>
             </div>
@@ -69,11 +76,13 @@ export default function SignUp() {
               <div className="mt-2">
                 <input
                   id="email"
-                  name="email"
                   type="email"
+                  name="email"
                   autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </div>
             </div>
@@ -95,6 +104,8 @@ export default function SignUp() {
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
             </div>
@@ -102,7 +113,7 @@ export default function SignUp() {
             <div>
               <div>
                 <label
-                  htmlFor="password"
+                  htmlFor="password2"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Confirm password
@@ -110,12 +121,14 @@ export default function SignUp() {
               </div>
               <div className="mt-2">
                 <input
-                  id="password"
-                  name="password"
+                  id="password2"
+                  name="password2"
                   type="password"
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value={confirmPass}
+                  onChange={(event) => setConfirmPass(event.target.value)}
                 />
               </div>
             </div>

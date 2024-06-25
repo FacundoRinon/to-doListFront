@@ -1,7 +1,6 @@
-import React from "react";
-
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 /*
   This example requires some changes to your config:
   
@@ -17,6 +16,21 @@ import { Link } from "react-router-dom";
   ```
 */
 export default function Login() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    async function getUsers() {
+      const response = await axios({
+        method: "GET",
+        url: `http://localhost:3000/users`,
+      });
+      setUsers(response.data);
+    }
+    getUsers();
+  }, []);
+
+  console.log(users);
+
   return (
     <>
       {/*
