@@ -1,46 +1,31 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+
 export default function Login() {
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    async function getUsers() {
-      const response = await axios({
-        method: "GET",
-        url: `http://localhost:3000/users`,
-      });
-      setUsers(response.data);
+  const navigate = useNavigate();
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const response = await axios({
+      method: "POST",
+      url: `${import.meta.env.VITE_API_URL}/users/login`,
+      data: {
+        user,
+        password,
+      },
+    });
+    console.log(response.data);
+    if (response.data.token) {
+      navigate("/");
     }
-    getUsers();
-  }, []);
-
-  console.log(users);
+  }
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
       <div className="flex min-h-full flex-1 flex-col justify-center px-4 py-4 lg:px-10">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -54,7 +39,12 @@ export default function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            className="space-y-6"
+            action="#"
+            method="GET"
+            onSubmit={handleSubmit}
+          >
             <div>
               <label
                 htmlFor="email"
@@ -70,6 +60,8 @@ export default function Login() {
                   autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value={user}
+                  onChange={(event) => setUser(event.target.value)}
                 />
               </div>
             </div>
@@ -91,6 +83,8 @@ export default function Login() {
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
             </div>

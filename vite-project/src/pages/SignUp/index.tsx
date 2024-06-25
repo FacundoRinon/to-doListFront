@@ -8,6 +8,8 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
 
+  const navigate = useNavigate();
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const response = await axios({
@@ -20,7 +22,7 @@ export default function SignUp() {
         confirmPass,
       },
     });
-    console.log(response);
+    navigate("/");
   }
 
   return (
