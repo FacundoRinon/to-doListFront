@@ -11,9 +11,9 @@ import "./App.css";
 function App() {
   return (
     <Routes>
-      <Route path={ROUTES.home} element={<Home />} />
-      <Route path={ROUTES.login} element={<Login />} />
       <Route path={ROUTES.signup} element={<SignUp />} />
+      <Route path={ROUTES.login} element={<Login />} />
+      <Route path={ROUTES.home} element={<Home />} />
       <Route path={ROUTES.test} element={<TailwindTest />} />
     </Routes>
   );

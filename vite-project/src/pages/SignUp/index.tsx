@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UseDispatch, useDispatch } from "react-redux";
 import axios from "axios";
+
+import { setToken } from "../../redux/userSlice";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
@@ -9,6 +12,7 @@ export default function SignUp() {
   const [confirmPass, setConfirmPass] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -22,6 +26,7 @@ export default function SignUp() {
         confirmPass,
       },
     });
+    dispatch(setToken(response.data));
     navigate("/");
   }
 
