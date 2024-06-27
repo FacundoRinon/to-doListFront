@@ -8,7 +8,7 @@ import { removeToken } from "../../redux/userSlice";
 
 const navigation = [
   { name: "Profile", href: "#" },
-  { name: "Lists", href: "#" },
+  { name: "Lists", href: "/lists" },
   { name: "All tasks", href: "#" },
   { name: "About project", href: "#" },
 ];
@@ -21,11 +21,9 @@ export default function NavBar() {
 
   interface RootState {
     user: {
-      // Define la estructura de tu estado de usuario aquí
       id: number;
       username: string;
       email: string;
-      // Otros campos necesarios
     };
   }
 

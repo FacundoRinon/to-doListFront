@@ -1,0 +1,25 @@
+.lists {
+  border: red 1px solid;
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+
+  &__header {
+    width: 100%;
+    font-size: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__lists {
+    width: 100%;
+    font-size: 1.5rem;
+    border: 2px solid blue;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+}
