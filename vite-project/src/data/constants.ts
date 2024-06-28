@@ -3,5 +3,6 @@ export const ROUTES = {
   login: "/login",
   home: "/",
   lists: "/lists",
+  listPage: "/list/:id?",
   test: "/test",
 };

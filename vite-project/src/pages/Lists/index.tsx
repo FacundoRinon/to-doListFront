@@ -43,22 +43,6 @@ const Lists = () => {
             user.lists.map((list) => (
               <ListCard key={list.list_id} list={list} />
             ))}
-          {user &&
-            user.lists.map((list) => (
-              <ListCard key={list.list_id} list={list} />
-            ))}
-          {user &&
-            user.lists.map((list) => (
-              <ListCard key={list.list_id} list={list} />
-            ))}
-          {user &&
-            user.lists.map((list) => (
-              <ListCard key={list.list_id} list={list} />
-            ))}
-          {user &&
-            user.lists.map((list) => (
-              <ListCard key={list.list_id} list={list} />
-            ))}
         </div>
       </div>
     </>

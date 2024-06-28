@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./index.scss";
+import { useSelector } from "react-redux";
 
 interface List {
   list_id: number;
@@ -15,8 +17,19 @@ interface ListCardProps {
 }
 
 const ListCard: React.FC<ListCardProps> = ({ list }) => {
+  interface RootState {
+    user: {
+      id: number;
+      username: string;
+      email: string;
+    };
+  }
+
+  const user = useSelector((state: RootState) => state.user);
   const [newDate, setNewDate] = useState("");
   const [newDeadline, setNewDeadline] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const formatDate = (isoDate: string): string => {
@@ -37,7 +50,11 @@ const ListCard: React.FC<ListCardProps> = ({ list }) => {
     <>
       <div className="listCard">
         <div className="listCard__title">
-          <h2>{list.title}</h2>
+          <h2
+            onClick={() => navigate(`/list/${list.list_id}?user_id=${user.id}`)}
+          >
+            {list.title}
+          </h2>
         </div>
         <div className="listCard__data">
           <p>Type: {list.type}</p>

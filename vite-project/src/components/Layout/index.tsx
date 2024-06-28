@@ -5,10 +5,14 @@ import "./index.scss";
 
 const Layout = () => {
   return (
-    <div className="layout">
-      <NavBar />
-      <div className="layout__outlet">
-        <Outlet />
+    <div className="flex flex-col h-screen">
+      <div className="bg-white shadow-sm">
+        <NavBar />
+      </div>
+      <div className="flex-1 overflow-y-auto mt-20 justify-center bg-gray-200">
+        <div className="px-4 py-6">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

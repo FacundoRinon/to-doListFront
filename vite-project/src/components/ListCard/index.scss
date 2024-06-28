@@ -8,6 +8,7 @@
 
   &:hover {
     transform: scale(1.01);
+    z-index: 5;
   }
 
   &__title {
