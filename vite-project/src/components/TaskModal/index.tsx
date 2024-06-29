@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { UseDispatch } from "react-redux";
 import axios from "axios";
+
+import { addTask } from "../../redux/userSlice";
 
 interface ListModalProps {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  listId: string;
 }
 
-const TaskModal: React.FC<ListModalProps> = ({ setModal }) => {
+const TaskModal: React.FC<ListModalProps> = ({ setModal, listId }) => {
   interface RootState {
     user: {
       id: number;
@@ -16,6 +20,8 @@ const TaskModal: React.FC<ListModalProps> = ({ setModal }) => {
   }
 
   const user = useSelector((state: RootState) => state.user);
+
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -37,16 +43,16 @@ const TaskModal: React.FC<ListModalProps> = ({ setModal }) => {
         description,
         date,
         user_id: user.id,
+        list_id: parseInt(listId, 10),
       },
     });
+    dispatch(addTask(response.data));
     setModal(false);
   }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      {/* Fondo borroso: bg-black bg-opacity-50 */}
       <div className="bg-white w-11/12 sm:w-10/12 md:w-8/12 lg:w-8/12 xl:w-6/12 rounded-lg shadow-lg overflow-hidden">
-        {/* Modal Header */}
         <div className="bg-gray-200 p-4 flex justify-between items-center">
           <h2 className="text-lg font-semibold text-gray-800">Add Task</h2>
           <button
@@ -57,7 +63,6 @@ const TaskModal: React.FC<ListModalProps> = ({ setModal }) => {
           </button>
         </div>
 
-        {/* Modal Body: Form */}
         <div className="p-4">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">

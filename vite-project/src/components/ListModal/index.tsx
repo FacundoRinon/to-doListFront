@@ -45,9 +45,7 @@ const ListModal: React.FC<ListModalProps> = ({ setModal }) => {
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-        {/* Fondo borroso */}
         <div className="bg-white w-11/12 sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 rounded-lg shadow-lg overflow-hidden">
-          {/* Modal Header */}
           <div className="bg-gray-200 p-4 flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-800">
               Create a new list
@@ -60,7 +58,6 @@ const ListModal: React.FC<ListModalProps> = ({ setModal }) => {
             </button>
           </div>
 
-          {/* Modal Body: Form */}
           <div className="p-4">
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
