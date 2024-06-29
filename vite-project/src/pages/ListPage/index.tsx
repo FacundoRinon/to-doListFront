@@ -51,7 +51,6 @@ const ListPage = () => {
       });
       setList(response.data);
       setTasks(response.data.tasks);
-      console.log("entro");
     }
     getList();
   }, [user]);

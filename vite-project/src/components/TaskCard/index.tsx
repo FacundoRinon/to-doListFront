@@ -1,4 +1,7 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { UseDispatch, useDispatch } from "react-redux";
+import { deleteTask } from "../../redux/userSlice";
 
 interface Task {
   task_id: number;
@@ -13,7 +16,10 @@ interface TaskCardProps {
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
+  const [cardTask, setCardTask] = useState(task);
   const [dueDate, setDueDate] = useState("");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const formatDate = (isoDate: string): string => {
@@ -29,26 +35,57 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     setDueDate(formattedDate);
   }, [task.dateToComplete]);
 
+  async function handleState() {
+    const response = await axios({
+      method: "PUT",
+      url: `${import.meta.env.VITE_API_URL}/tasks/${task.task_id}`,
+    });
+    setCardTask(response.data);
+  }
+
+  async function handleDelete() {
+    const response = await axios({
+      method: "DELETE",
+      url: `${import.meta.env.VITE_API_URL}/tasks/${task.task_id}`,
+    });
+    dispatch(deleteTask(task.task_id));
+  }
+
   return (
     <div className="hoverElement mb-6 mt-3 border bg-gray-200 rounded-lg p-4 flex flex-col md:flex-row">
       <div className="w-full md:w-4/12 mb-2 md:mb-0 md:flex md:flex-col md:items-start">
         <h2 className="text-lg font-semibold mb-2">{task.title}</h2>
         <p className="text-sm mb-1">Due date: {dueDate}</p>
-        <p className="text-sm">State: {task.state}</p>
+        <p className="text-sm">State: {cardTask.state}</p>
       </div>
 
       <div className="taskCard__description w-full md:w-8/12 md:ml-4">
         <h3>Description:</h3>
-        <p className="text-sm text-center md:text-left">{task.description}</p>
+        <p className="text-sm mb-3 mt-2 md: text-left">{task.description}</p>
       </div>
 
       <div className="w-full mt-2 md:mt-0 md:w-4/12 md:flex md:justify-end md:items-center">
-        <button className="bg-green-500 mr-1 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-md mb-2 md:mb-0 md:mr-2 text-sm sm:mr-2">
-          Check
-        </button>
-        <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md text-sm ">
+        {cardTask && cardTask.state === "pending" ? (
+          <p
+            className="bg-green-500 mr-1 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-md mb-2 md:mb-0 md:mr-2 text-sm sm:mr-2"
+            onClick={() => handleState()}
+          >
+            Check
+          </p>
+        ) : (
+          <p
+            className="bg-gray-500 mr-1 hover:bg-gray-600 text-white font-semibold py-1 px-3 rounded-md mb-2 md:mb-0 md:mr-2 text-sm sm:mr-2"
+            onClick={() => handleState()}
+          >
+            Uncheck
+          </p>
+        )}
+        <p
+          className="bg-red-500 mr-1 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md text-sm"
+          onClick={() => handleDelete()}
+        >
           Delete
-        </button>
+        </p>
       </div>
     </div>
   );

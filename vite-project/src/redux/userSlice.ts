@@ -18,6 +18,14 @@ const initialState: StateType = {
   tasks: [],
 };
 
+interface Task {
+  task_id: number;
+  title: string;
+  description: string;
+  dateToComplete: string;
+  state: string;
+}
+
 const userSlice = createSlice({
   name: "user",
   initialState: null,
@@ -42,10 +50,26 @@ const userSlice = createSlice({
       };
       return newUser;
     },
+    deleteTask(state, action) {
+      const taskIdToDelete = action.payload;
+
+      if (state === null || typeof state !== "object") {
+        return state;
+      }
+      const updatedTasks = state.tasks.filter(
+        (task) => task.task_id !== taskIdToDelete
+      );
+
+      const updatedUser = {
+        ...state,
+        task: updatedTasks,
+      };
+      return updatedUser;
+    },
   },
 });
 
 const { actions, reducer } = userSlice;
-export const { setToken, removeToken, addTask } = actions;
+export const { setToken, removeToken, addTask, deleteTask } = actions;
 
 export default reducer;

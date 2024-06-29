@@ -9,10 +9,10 @@ import { removeToken } from "../../redux/userSlice";
 import "./index.scss";
 
 const navigation = [
-  { name: "Profile", href: "#" },
+  { name: "Profile", href: "/" },
   { name: "Lists", href: "/lists" },
-  { name: "All tasks", href: "#" },
-  { name: "About project", href: "#" },
+  { name: "All tasks", href: "/" },
+  { name: "About project", href: "/" },
 ];
 
 export default function NavBar() {
@@ -31,6 +31,11 @@ export default function NavBar() {
 
   const user = useSelector((state: RootState) => state.user);
 
+  async function handleBurguer(item: any) {
+    navigate(item.href);
+    setMobileMenuOpen(false);
+  }
+
   async function handleLogout() {
     dispatch(removeToken(user));
     navigate("/login");
@@ -44,14 +49,14 @@ export default function NavBar() {
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
-            <a href="/" className="-m-1.5 p-1.5">
+            <p onClick={() => navigate("/")} className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
                 className="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
               />
-            </a>
+            </p>
           </div>
           <div className="flex lg:hidden">
             <button
@@ -65,13 +70,13 @@ export default function NavBar() {
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-              <a
+              <p
                 key={item.name}
-                href={item.href}
+                onClick={() => navigate(item.href)}
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
                 {item.name}
-              </a>
+              </p>
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -121,13 +126,13 @@ export default function NavBar() {
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                   {navigation.map((item) => (
-                    <a
+                    <p
                       key={item.name}
-                      href={item.href}
+                      onClick={() => handleBurguer(item)}
                       className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     >
                       {item.name}
-                    </a>
+                    </p>
                   ))}
                 </div>
                 <div className="py-6">
