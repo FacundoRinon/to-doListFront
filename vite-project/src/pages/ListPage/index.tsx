@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import TaskModal from "../../components/TaskModal";
 import TaskCard from "../../components/TaskCard";
+import { updateTasks } from "../../redux/userSlice";
 
 interface List {
   list_id: number;
@@ -12,6 +13,13 @@ interface List {
   type: string;
   deadline: string;
   state: string;
+  tasks: {
+    task_id: number;
+    title: string;
+    state: string;
+    description: string;
+    dateToComplete: string;
+  };
 }
 
 interface Task {
@@ -29,10 +37,18 @@ const ListPage = () => {
       id: number;
       username: string;
       email: string;
+      tasks: {
+        task_id: number;
+        title: string;
+        state: string;
+        description: string;
+        dateToComplete: string;
+      };
     };
   }
 
   const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
 
   const [list, setList] = useState<List | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -50,6 +66,7 @@ const ListPage = () => {
         },
       });
       setList(response.data);
+      dispatch(updateTasks(response.data.tasks));
       setTasks(response.data.tasks);
     }
     getList();
@@ -69,7 +86,8 @@ const ListPage = () => {
             </button>
           </div>
           <div className="bg-white p-4 rounded-b-md mt-2">
-            {tasks &&
+            {list.tasks &&
+              tasks &&
               tasks.map((task) => <TaskCard key={task.task_id} task={task} />)}
           </div>
           {modal && id && <TaskModal setModal={setModal} listId={id} />}

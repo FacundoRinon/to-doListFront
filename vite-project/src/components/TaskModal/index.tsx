@@ -13,6 +13,7 @@ interface ListModalProps {
 const TaskModal: React.FC<ListModalProps> = ({ setModal, listId }) => {
   interface RootState {
     user: {
+      token: string;
       id: number;
       username: string;
       email: string;
@@ -45,6 +46,9 @@ const TaskModal: React.FC<ListModalProps> = ({ setModal, listId }) => {
         user_id: user.id,
         list_id: parseInt(listId, 10),
       },
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
     dispatch(addTask(response.data));
     setModal(false);
@@ -76,7 +80,7 @@ const TaskModal: React.FC<ListModalProps> = ({ setModal, listId }) => {
                 type="text"
                 id="title"
                 name="title"
-                className="mt-1 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                className="mt-1 p-2 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
               />
@@ -92,7 +96,7 @@ const TaskModal: React.FC<ListModalProps> = ({ setModal, listId }) => {
                 id="description"
                 name="description"
                 rows={3}
-                className="mt-1 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                className="mt-1 p-2 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
               ></textarea>
@@ -108,7 +112,7 @@ const TaskModal: React.FC<ListModalProps> = ({ setModal, listId }) => {
                 type="date"
                 id="date"
                 name="date"
-                className="mt-1 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                className="mt-1 p-2 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                 value={date ? date.toISOString().split("T")[0] : ""}
                 onChange={handleDateChange}
               />

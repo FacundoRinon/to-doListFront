@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Lists from "./pages/Lists";
 import ListPage from "./pages/ListPage";
+import Tasks from "./pages/Tasks";
 
 import Layout from "./components/Layout";
 
@@ -22,6 +23,7 @@ function App() {
         <Route path={ROUTES.lists} element={<Lists />} />
         <Route path={ROUTES.listPage} element={<ListPage />} />
         <Route path={ROUTES.test} element={<TailwindTest />} />
+        <Route path={ROUTES.tasks} element={<Tasks />} />
       </Route>
     </Routes>
   );

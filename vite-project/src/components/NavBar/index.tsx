@@ -11,7 +11,7 @@ import "./index.scss";
 const navigation = [
   { name: "Profile", href: "/" },
   { name: "Lists", href: "/lists" },
-  { name: "All tasks", href: "/" },
+  { name: "All tasks", href: "/tasks" },
   { name: "About project", href: "/" },
 ];
 
@@ -53,7 +53,7 @@ export default function NavBar() {
               <span className="sr-only">Your Company</span>
               <img
                 className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                src="https://w7.pngwing.com/pngs/268/27/png-transparent-action-item-computer-icons-task-others-miscellaneous-angle-text-thumbnail.png"
                 alt=""
               />
             </p>
@@ -73,7 +73,7 @@ export default function NavBar() {
               <p
                 key={item.name}
                 onClick={() => navigate(item.href)}
-                className="text-sm font-semibold leading-6 text-gray-900"
+                className="cursor-pointer text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500"
               >
                 {item.name}
               </p>
@@ -83,14 +83,14 @@ export default function NavBar() {
             {user ? (
               <p
                 onClick={() => handleLogout()}
-                className="text-sm font-semibold leading-6 text-gray-900"
+                className="cursor-pointer text-sm font-semibold leading-6 text-gray-900 hover:text-red-500"
               >
                 Log out <span aria-hidden="true">&rarr;</span>
               </p>
             ) : (
               <Link
                 to={"/login"}
-                className="text-sm font-semibold leading-6 text-gray-900"
+                className="cursor-pointer text-sm font-semibold leading-6 text-gray-900 hover:text-green-500"
               >
                 Log in <span aria-hidden="true">&rarr;</span>
               </Link>
@@ -129,7 +129,7 @@ export default function NavBar() {
                     <p
                       key={item.name}
                       onClick={() => handleBurguer(item)}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      className="cursor-pointer mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     >
                       {item.name}
                     </p>

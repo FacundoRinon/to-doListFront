@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+
+import { deleteList } from "../../redux/userSlice";
 
 interface List {
   list_id: number;
@@ -18,6 +21,7 @@ interface ListCardProps {
 const ListCard: React.FC<ListCardProps> = ({ list }) => {
   interface RootState {
     user: {
+      token: string;
       id: number;
       username: string;
       email: string;
@@ -25,6 +29,7 @@ const ListCard: React.FC<ListCardProps> = ({ list }) => {
   }
 
   const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
   const [newDate, setNewDate] = useState("");
   const [newDeadline, setNewDeadline] = useState("");
 
@@ -45,10 +50,21 @@ const ListCard: React.FC<ListCardProps> = ({ list }) => {
     setNewDeadline(formattedDeadline);
   }, [list.creation_date]);
 
+  async function handleDelete() {
+    const response = await axios({
+      method: "DELETE",
+      url: `${import.meta.env.VITE_API_URL}/lists/${list.list_id}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    dispatch(deleteList(list.list_id));
+  }
+
   return (
     <div className="hoverElement w-full md:w-1/2 lg:w-1/3 xl:w-2/5 mx-5 mb-10 rounded-lg shadow-md overflow-hidden bg-white">
       <div
-        className="listCard__header bg-gray-300 py-2 px-4 flex justify-between items-center"
+        className="cursor-pointer bg-gray-300 py-2 px-4 flex justify-between items-center"
         onClick={() => navigate(`/list/${list.list_id}?user_id=${user.id}`)}
       >
         <h2 className="cursor-pointer text-lg font-semibold text-gray-800 hover:text-blue-500">
@@ -56,7 +72,7 @@ const ListCard: React.FC<ListCardProps> = ({ list }) => {
         </h2>
       </div>
       <div
-        className="listCard__data p-4"
+        className="cursor-pointer p-4"
         onClick={() => navigate(`/list/${list.list_id}?user_id=${user.id}`)}
       >
         <p className="text-sm text-gray-600 mb-2">Type: {list.type}</p>
@@ -65,9 +81,12 @@ const ListCard: React.FC<ListCardProps> = ({ list }) => {
         <p className="text-sm text-gray-600">State: {list.state}</p>
       </div>
       <div className="listCard__delete py-2 px-4 bg-gray-200 flex justify-end">
-        <button className="text-red-500 hover:text-red-700 font-semibold">
+        <p
+          className="cursor-pointer text-red-500 hover:text-red-700 font-semibold"
+          onClick={() => handleDelete()}
+        >
           Delete
-        </button>
+        </p>
       </div>
     </div>
   );

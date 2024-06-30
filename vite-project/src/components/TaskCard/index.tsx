@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { UseDispatch, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+// import { updateTaskState } from "../../redux/userSlice";
 import { deleteTask } from "../../redux/userSlice";
 
 interface Task {
@@ -16,6 +18,23 @@ interface TaskCardProps {
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
+  interface RootState {
+    user: {
+      token: string;
+      id: number;
+      username: string;
+      email: string;
+      tasks: Array<{
+        task_id: number;
+        title: string;
+        description: string;
+        state: string;
+        dateToComplete: string;
+      }>;
+    };
+  }
+
+  const user = useSelector((state: RootState) => state.user);
   const [cardTask, setCardTask] = useState(task);
   const [dueDate, setDueDate] = useState("");
 
@@ -39,7 +58,11 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     const response = await axios({
       method: "PUT",
       url: `${import.meta.env.VITE_API_URL}/tasks/${task.task_id}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
+    // dispatch(updateTaskState(cardTask));
     setCardTask(response.data);
   }
 
@@ -47,6 +70,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     const response = await axios({
       method: "DELETE",
       url: `${import.meta.env.VITE_API_URL}/tasks/${task.task_id}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
     dispatch(deleteTask(task.task_id));
   }
@@ -67,21 +93,21 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
       <div className="w-full mt-2 md:mt-0 md:w-4/12 md:flex md:justify-end md:items-center">
         {cardTask && cardTask.state === "pending" ? (
           <p
-            className="bg-green-500 mr-1 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-md mb-2 md:mb-0 md:mr-2 text-sm sm:mr-2"
+            className="cursor-pointer bg-green-500 mr-1 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-md mb-2 md:mb-0 md:mr-2 text-sm sm:mr-2"
             onClick={() => handleState()}
           >
             Check
           </p>
         ) : (
           <p
-            className="bg-gray-500 mr-1 hover:bg-gray-600 text-white font-semibold py-1 px-3 rounded-md mb-2 md:mb-0 md:mr-2 text-sm sm:mr-2"
+            className="cursor-pointer bg-gray-500 mr-1 hover:bg-gray-600 text-white font-semibold py-1 px-3 rounded-md mb-2 md:mb-0 md:mr-2 text-sm sm:mr-2"
             onClick={() => handleState()}
           >
             Uncheck
           </p>
         )}
         <p
-          className="bg-red-500 mr-1 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md text-sm"
+          className="cursor-pointer bg-red-500 mr-1 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md text-sm"
           onClick={() => handleDelete()}
         >
           Delete

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+
+import { addList } from "../../redux/userSlice";
 
 interface ListModalProps {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,6 +11,7 @@ interface ListModalProps {
 const ListModal: React.FC<ListModalProps> = ({ setModal }) => {
   interface RootState {
     user: {
+      token: string;
       id: number;
       username: string;
       email: string;
@@ -16,6 +19,8 @@ const ListModal: React.FC<ListModalProps> = ({ setModal }) => {
   }
 
   const user = useSelector((state: RootState) => state.user);
+
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [type, setType] = useState("");
@@ -38,7 +43,11 @@ const ListModal: React.FC<ListModalProps> = ({ setModal }) => {
         deadline,
         user_id: user.id,
       },
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
+    dispatch(addList(response.data));
     setModal(false);
   }
 
@@ -73,7 +82,7 @@ const ListModal: React.FC<ListModalProps> = ({ setModal }) => {
                   placeholder="Name of the list"
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
-                  className="mt-1 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                  className="mt-1 p-2 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                 />
               </div>
               <div className="mb-4">
@@ -89,7 +98,7 @@ const ListModal: React.FC<ListModalProps> = ({ setModal }) => {
                   placeholder="Select the type"
                   value={type}
                   onChange={(event) => setType(event.target.value)}
-                  className="mt-1 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                  className="mt-1 p-2 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                 />
               </div>
               <div className="mb-4">
@@ -105,7 +114,7 @@ const ListModal: React.FC<ListModalProps> = ({ setModal }) => {
                   placeholder="Date"
                   value={deadline ? deadline.toISOString().split("T")[0] : ""}
                   onChange={handleDateChange}
-                  className="mt-1 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                  className="mt-1 p-2 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                 />
               </div>
               <div className="mt-8">
