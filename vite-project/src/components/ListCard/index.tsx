@@ -78,7 +78,6 @@ const ListCard: React.FC<ListCardProps> = ({ list }) => {
         <p className="text-sm text-gray-600 mb-2">Type: {list.type}</p>
         <p className="text-sm text-gray-600 mb-2">Creation Date: {newDate}</p>
         <p className="text-sm text-gray-600 mb-2">Deadline: {newDeadline}</p>
-        <p className="text-sm text-gray-600">State: {list.state}</p>
       </div>
       <div className="listCard__delete py-2 px-4 bg-gray-200 flex justify-end">
         <p
