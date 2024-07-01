@@ -1,40 +1,50 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface StateType {
+interface State {
   token: string;
   id: number;
   username: string;
   email: string;
-  lists: any[];
-  tasks: any[];
+  lists: {
+    list_id: number;
+    title: string;
+    type: string;
+    deadline: string;
+    state: string;
+    creation_date: string;
+  }[];
+  tasks: {
+    task_id: number;
+    title: string;
+    description: string;
+    dateToComplete: string;
+    state: string;
+  }[];
+  fastList: {
+    id: number;
+    content: string;
+  }[];
 }
 
-const initialState: StateType = {
+const initialState: State = {
   token: "",
-  id: NaN,
+  id: 0,
   username: "",
   email: "",
   lists: [],
   tasks: [],
+  fastList: [],
 };
-
-interface Task {
-  task_id: number;
-  title: string;
-  description: string;
-  dateToComplete: string;
-  state: string;
-}
 
 const userSlice = createSlice({
   name: "user",
-  initialState: null,
+  initialState,
   reducers: {
     setToken(state, action) {
       return action.payload;
     },
     removeToken(state, action) {
-      return null;
+      return initialState;
     },
     addList(state, action) {
       if (state === null || typeof state !== "object") {
@@ -104,6 +114,21 @@ const userSlice = createSlice({
       };
       return updatedUser;
     },
+    addFast(state, action) {
+      const newFast = action.payload;
+      const updatedFast = [newFast, ...state.fastList];
+
+      const updatedUser = {
+        ...state,
+        fastList: updatedFast,
+      };
+
+      return updatedUser;
+    },
+    deleteFast(state, action) {
+      const indexToDelete = action.payload;
+      state.fastList.splice(indexToDelete, 1);
+    },
   },
 });
 
@@ -116,6 +141,8 @@ export const {
   updateTasks,
   deleteList,
   deleteTask,
+  addFast,
+  deleteFast,
 } = actions;
 
 export default reducer;

@@ -1,8 +1,6 @@
 import NavBar from "../NavBar";
 import { Outlet } from "react-router-dom";
 
-import "./index.scss";
-
 const Layout = () => {
   return (
     <div className="flex flex-col h-screen">

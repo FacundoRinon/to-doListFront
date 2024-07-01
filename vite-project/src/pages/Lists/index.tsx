@@ -33,7 +33,13 @@ const Lists = () => {
       {modal && <ListModal setModal={setModal} />}
       <div className="lists w-100 mx-auto">
         <div className="flex justify-between items-center mb-5">
-          <h1 className="text-lg font-semibold">All your lists</h1>
+          {user.lists.length > 0 ? (
+            <h1 className="text-blue-500 text-2xl font-semibold">
+              All your lists
+            </h1>
+          ) : (
+            <h1 className="text-lg font-semibold">Create a list</h1>
+          )}
           <p
             className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md"
             onClick={() => setModal(true)}
@@ -46,6 +52,19 @@ const Lists = () => {
             user.lists.map((list) => (
               <ListCard key={list.list_id} list={list} />
             ))}
+          {user && user.lists.length === 0 && (
+            <div className="flex flex-col items-center justify-center mt-20 w-full">
+              <h2 className="text-5xl text-blue-600 rounded-xl bg-white p-6 mb-4">
+                Create a list and start adding new tasks!
+              </h2>
+              <p
+                className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md"
+                onClick={() => setModal(true)}
+              >
+                Create new list
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
@@ -67,7 +67,7 @@ const ListCard: React.FC<ListCardProps> = ({ list }) => {
         className="cursor-pointer bg-gray-300 py-2 px-4 flex justify-between items-center"
         onClick={() => navigate(`/list/${list.list_id}?user_id=${user.id}`)}
       >
-        <h2 className="cursor-pointer text-lg font-semibold text-gray-800 hover:text-blue-500">
+        <h2 className="cursor-pointer text-lg font-semibold text-blue-500 hover:text-blue-700">
           {list.title}
         </h2>
       </div>

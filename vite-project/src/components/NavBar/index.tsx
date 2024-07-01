@@ -6,13 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { removeToken } from "../../redux/userSlice";
 
-import "./index.scss";
-
 const navigation = [
-  { name: "Profile", href: "/" },
+  { name: "Home", href: "/" },
   { name: "Lists", href: "/lists" },
   { name: "All tasks", href: "/tasks" },
-  { name: "About project", href: "/" },
 ];
 
 export default function NavBar() {
@@ -43,7 +40,7 @@ export default function NavBar() {
 
   return (
     <div className="bg-white">
-      <header className="absolute inset-x-0 top-0 z-50">
+      <header className="absolute inset-x-0 top-0 z-50 ">
         <nav
           className="flex items-center justify-between p-6 lg:px-8 navCustom"
           aria-label="Global"
@@ -73,7 +70,7 @@ export default function NavBar() {
               <p
                 key={item.name}
                 onClick={() => navigate(item.href)}
-                className="cursor-pointer text-sm font-semibold leading-6 text-gray-900 hover:text-blue-500"
+                className="cursor-pointer text-blue-500 text-lg font-semibold leading-6 hover:text-blue-700"
               >
                 {item.name}
               </p>
@@ -109,7 +106,7 @@ export default function NavBar() {
                 <span className="sr-only">Your Company</span>
                 <img
                   className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                  src="https://w7.pngwing.com/pngs/268/27/png-transparent-action-item-computer-icons-task-others-miscellaneous-angle-text-thumbnail.png"
                   alt=""
                 />
               </a>
@@ -129,7 +126,7 @@ export default function NavBar() {
                     <p
                       key={item.name}
                       onClick={() => handleBurguer(item)}
-                      className="cursor-pointer mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      className="cursor-pointer text-blue-500 text-lg mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-blue-500 hover:bg-gray-50"
                     >
                       {item.name}
                     </p>

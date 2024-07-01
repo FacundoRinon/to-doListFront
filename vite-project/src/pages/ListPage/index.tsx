@@ -13,13 +13,13 @@ interface List {
   type: string;
   deadline: string;
   state: string;
-  tasks: {
+  tasks: Array<{
     task_id: number;
     title: string;
     state: string;
     description: string;
     dateToComplete: string;
-  };
+  }>;
 }
 
 interface Task {
@@ -89,6 +89,9 @@ const ListPage = () => {
             {list.tasks &&
               tasks &&
               tasks.map((task) => <TaskCard key={task.task_id} task={task} />)}
+            {list.tasks.length < 1 && (
+              <p>This list doesn't have any tasks yet.</p>
+            )}
           </div>
           {modal && id && <TaskModal setModal={setModal} listId={id} />}
         </div>

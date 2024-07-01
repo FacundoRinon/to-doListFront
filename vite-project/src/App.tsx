@@ -10,6 +10,7 @@ import ListPage from "./pages/ListPage";
 import Tasks from "./pages/Tasks";
 
 import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoutes";
 
 import "./App.css";
 
@@ -18,12 +19,14 @@ function App() {
     <Routes>
       <Route path={ROUTES.signup} element={<SignUp />} />
       <Route path={ROUTES.login} element={<Login />} />
-      <Route path={ROUTES.home} element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path={ROUTES.lists} element={<Lists />} />
-        <Route path={ROUTES.listPage} element={<ListPage />} />
-        <Route path={ROUTES.test} element={<TailwindTest />} />
-        <Route path={ROUTES.tasks} element={<Tasks />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path={ROUTES.home} element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path={ROUTES.lists} element={<Lists />} />
+          <Route path={ROUTES.listPage} element={<ListPage />} />
+          <Route path={ROUTES.test} element={<TailwindTest />} />
+          <Route path={ROUTES.tasks} element={<Tasks />} />
+        </Route>
       </Route>
     </Routes>
   );

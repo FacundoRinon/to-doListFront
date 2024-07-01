@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { UseDispatch } from "react-redux";
 import axios from "axios";
 
 import { addTask } from "../../redux/userSlice";

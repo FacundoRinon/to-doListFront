@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-// import { updateTaskState } from "../../redux/userSlice";
 import { deleteTask } from "../../redux/userSlice";
 
 interface Task {
@@ -62,7 +61,6 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
         Authorization: `Bearer ${user.token}`,
       },
     });
-    // dispatch(updateTaskState(cardTask));
     setCardTask(response.data);
   }
 
